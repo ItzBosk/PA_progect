@@ -12,15 +12,44 @@ public abstract class Item implements Visitable, Comparable<Item>{
 	final public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
+
 	
 	@Override
 	public int compareTo(Item item) {
 		return this.unitPrice.compareTo(item.unitPrice);
 	}
+	
+	// superbinding
+	public static <T extends Comparable<? super T>> void orderListByPrice(T[] itemsList) {
+		for (int i = 0; i < itemsList.length; i++) {
+			boolean flag = false;
+			for (int j = 0; j < itemsList.length - 1; j++) {
+				if (itemsList[j].compareTo(itemsList[j + 1]) > 0) {
+					Object temp = itemsList[j];
+					itemsList[j] = itemsList[j + 1];
+					itemsList[j + 1] = (T) temp;      // cast esplicito
+					flag = true;
+				}
+			}
+			if (!flag)
+				break;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return this.name + ", " + "prezzo/unità: " + this.unitPrice + "€";
+	}
+	
+	public void deleteItem() throws Throwable {
+		this.finalize();   // distruttore del garbage collectors
+		System.out.println(this.name + " eliminato");
+	}
 }
 
 class ItemSoldInPieces extends Item implements Visitable{
 	int numberOfPieces;
+	private Item giftItem = null;
 	
 	public ItemSoldInPieces() {}
 	
@@ -28,6 +57,12 @@ class ItemSoldInPieces extends Item implements Visitable{
 		this.name = name;
 		this.setUnitPrice(unitPrice);
 		this.numberOfPieces = numberOfPieces;
+	}
+	
+	// facade
+	public <T extends Item> void addGiftItem(T giftItem) {
+		this.giftItem = giftItem;
+		System.out.println(giftItem.name + " aggiunto in regalo con " + this.name);
 	}
 	
 	@Override
@@ -42,6 +77,13 @@ class ItemSoldInPieces extends Item implements Visitable{
 			return true;
 		return false;
 	}
+	
+	@Override  // uso di super
+	public String toString() {
+		return super.toString() + ", " + "pezzi: " + numberOfPieces 
+				+ " con in regalo: " + giftItem.name;
+	}
+	
 }
 
 class  ItemSoldInWeight extends Item implements Visitable{
@@ -68,5 +110,9 @@ class  ItemSoldInWeight extends Item implements Visitable{
 		return false;
 	}
 	
+	@Override   // uso di super
+	public String toString() {
+		return super.toString() + ", " + "pezzi: " + this.weight;
+	}
 }
 
