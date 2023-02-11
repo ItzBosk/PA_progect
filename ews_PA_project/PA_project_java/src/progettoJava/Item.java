@@ -111,7 +111,7 @@ class  ItemSoldInWeight extends Item implements Visitable{
 	
 	@Override   // uso di super
 	public String toString() {
-		return super.toString() + ", " + "pezzi: " + this.weight;
+		return super.toString() + ", " + "peso: " + this.weight;
 	}
 }
 

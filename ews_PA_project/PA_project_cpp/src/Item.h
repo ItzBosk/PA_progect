@@ -9,41 +9,36 @@ public:
 	Item();
 	virtual ~Item();
 
-	virtual double getUnitPrice();
+	double getUnitPrice();
 	virtual void setUnitPrice(double unitPrice) final;
 	// compareTo ??
 	// orderListByPrice ??
-	virtual char* toString();
-	virtual void deleteItem();
+	virtual void toString() = 0;  // pure virtual function -> Item abstract class
 };
 
 class ItemSoldInPieces : public Item{
 private:
-	Item giftItem;  // da inizializzare
+	ItemSoldInPieces* giftItem;
 public:
-	using Item::name;
 	int numberOfPieces;
 	ItemSoldInPieces();
 	ItemSoldInPieces(char* name, double unitPrice, int numberOfPieces);
-	virtual ~ItemSoldInPieces();
+	~ItemSoldInPieces();
 
 	void addGiftItem();
 	bool equalsTo(ItemSoldInPieces item);
-	virtual char* toString();
+	void toString();
 };
 
 class ItemSoldInWeight : public Item{
-private:
-	Item giftItem;  // da inizializzare
 public:
-	using Item::name;
 	double weight;
 	ItemSoldInWeight();
 	ItemSoldInWeight(char* name, double unitPrice, double weight);
-	virtual ~ItemSoldInWeight();
+	~ItemSoldInWeight();
 
 	bool equalsTo(ItemSoldInWeight item);
-	virtual char* toString();
+	void toString();
 };
 
 
