@@ -13,7 +13,6 @@ public abstract class Item implements Visitable, Comparable<Item>{
 		this.unitPrice = unitPrice;
 	}
 
-	
 	@Override
 	public int compareTo(Item item) {
 		return this.unitPrice.compareTo(item.unitPrice);
