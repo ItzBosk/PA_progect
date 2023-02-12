@@ -10,11 +10,13 @@ public:
 	vector<ItemSoldInWeight> cartItemSoldInWeight;
 	bool fidelityCard;
 
-	Cart(bool fidalityCard);
+	Cart(bool fidelityCard);
 	~Cart();
 
-//	void addItem(T newItem);
-//	void removeItem(T itemToRemove);
+	void addItemSoldInPieces(ItemSoldInPieces newItem);
+	void addItemSoldInWeight(ItemSoldInWeight newItem);
+	void removeItemSoldInPieces(ItemSoldInPieces itemToRemove);
+	void removeItemSoldInWeight(ItemSoldInWeight itemToRemove);
 	void printCart();
 };
 
@@ -23,14 +25,17 @@ public:
 	vector<ItemSoldInPieces> supermarketItemSoldInPieces;
 	vector<ItemSoldInWeight> supermarketItemSoldInWeight;
 	const double fidelityDiscount = 0.85;
+	const double sundayDiscount = 0.9;
 
 	Supermarket(vector<ItemSoldInPieces> supermarketItemSoldInPieces,
 			vector<ItemSoldInWeight> supermarketItemSoldInWeight);
 
-	static char* getBill(Cart cart);
+	double getBill(Cart cart);
 	void printItems();
-//	void removeItem(T itemToRemove);
-
+	void addItemSoldInPieces(ItemSoldInPieces newItem);
+	void addItemSoldInWeight(ItemSoldInWeight newItem);
+	void removeItemSoldInPieces(ItemSoldInPieces itemToRemove);
+	void removeItemSoldInWeight(ItemSoldInWeight itemToRemove);
 };
 
 

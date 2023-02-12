@@ -189,10 +189,6 @@ public class Supermarket {
 		// elimino prodotto
 //		mele.deleteItem();
 		
-		// facade: aggiungo dentifricio in regalo con detersivo senza esporre giftItem
-//		detersivo.addGiftItem(dentifricio);
-//		System.out.println(detersivo.toString());
-		
 	}
 }
 

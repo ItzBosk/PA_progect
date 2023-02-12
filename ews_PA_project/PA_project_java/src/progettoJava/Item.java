@@ -48,7 +48,6 @@ public abstract class Item implements Visitable, Comparable<Item>{
 
 class ItemSoldInPieces extends Item implements Visitable{
 	int numberOfPieces;
-	private Item giftItem = null;
 	
 	public ItemSoldInPieces() {}
 	
@@ -56,12 +55,6 @@ class ItemSoldInPieces extends Item implements Visitable{
 		this.name = name;
 		this.setUnitPrice(unitPrice);
 		this.numberOfPieces = numberOfPieces;
-	}
-	
-	// facade
-	public <T extends Item> void addGiftItem(T giftItem) {
-		this.giftItem = giftItem;
-		System.out.println(giftItem.name + " aggiunto in regalo con " + this.name);
 	}
 	
 	@Override
@@ -79,10 +72,8 @@ class ItemSoldInPieces extends Item implements Visitable{
 	
 	@Override  // uso di super
 	public String toString() {
-		return super.toString() + ", " + "pezzi: " + numberOfPieces 
-				+ " con in regalo: " + giftItem.name;
+		return super.toString() + ", " + "pezzi: " + numberOfPieces; 
 	}
-	
 }
 
 class ItemSoldInWeight extends Item implements Visitable{

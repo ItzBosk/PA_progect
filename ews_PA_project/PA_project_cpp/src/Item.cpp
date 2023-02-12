@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+using namespace std;
 
 Item::Item(){}
 Item::~Item(){}
@@ -21,7 +23,6 @@ ItemSoldInPieces::ItemSoldInPieces(char *name, double unitPrice, int numberOfPie
 	this->name[strlen(name)] = '\0';
 	this->Item::setUnitPrice(unitPrice);
 	this->numberOfPieces = numberOfPieces;
-	this->giftItem = NULL;
 }
 
 ItemSoldInPieces::~ItemSoldInPieces(){}
@@ -38,6 +39,10 @@ char* ItemSoldInPieces::toString() {
 	strcpy(result, name);
 	result[strlen(name)] = '\0';
 	return result;
+}
+
+double ItemSoldInPieces::getItemPrice(){
+	return getUnitPrice() * numberOfPieces;
 }
 
 ItemSoldInWeight::ItemSoldInWeight(){}
@@ -63,6 +68,10 @@ char* ItemSoldInWeight::toString() {
 	strcpy(result, name);
 	result[strlen(name)] = '\0';
 	return result;
+}
+
+double ItemSoldInWeight::getItemPrice(){
+	return getUnitPrice() * weight;
 }
 
 

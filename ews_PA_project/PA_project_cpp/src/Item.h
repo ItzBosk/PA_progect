@@ -11,23 +11,20 @@ public:
 
 	double getUnitPrice();
 	void setUnitPrice(double unitPrice);
-	// compareTo ??
-	// orderListByPrice ??
 	virtual char* toString() = 0;  // pure virtual function -> Item abstract class
+	virtual double getItemPrice() = 0;
 };
 
 class ItemSoldInPieces : public Item{
-private:
-	ItemSoldInPieces* giftItem;
 public:
 	int numberOfPieces;
 	ItemSoldInPieces();
 	ItemSoldInPieces(char* name, double unitPrice, int numberOfPieces);
 	~ItemSoldInPieces();
 
-	void addGiftItem();
 	bool equalsTo(ItemSoldInPieces item);
 	char* toString();
+	double getItemPrice();
 };
 
 class ItemSoldInWeight : public Item{
@@ -39,6 +36,7 @@ public:
 
 	bool equalsTo(ItemSoldInWeight item);
 	char* toString();
+	double getItemPrice();
 };
 
 
