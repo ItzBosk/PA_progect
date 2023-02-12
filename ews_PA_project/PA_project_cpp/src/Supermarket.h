@@ -6,7 +6,8 @@ using namespace std;
 
 class Cart{
 public:
-	vector<Item> cartItems;
+	vector<ItemSoldInPieces> cartItemsSoldInPieces;
+	vector<ItemSoldInWeight> cartItemSoldInWeight;
 	bool fidelityCard;
 
 	Cart(bool fidalityCard);
@@ -17,17 +18,17 @@ public:
 	void printCart();
 };
 
-class Supermarket{
+class Supermarket {
 public:
-	vector<Item> supermarketItems;
-	static const double fidelityDiscount = 0.85;
+	vector<ItemSoldInPieces> supermarketItemSoldInPieces;
+	vector<ItemSoldInWeight> supermarketItemSoldInWeight;
+	const double fidelityDiscount = 0.85;
 
-	Supermarket(vector<Item> suermarketItems) {
-			supermarketItems = suermarketItems;
-	}
+	Supermarket(vector<ItemSoldInPieces> supermarketItemSoldInPieces,
+			vector<ItemSoldInWeight> supermarketItemSoldInWeight);
 
 	static char* getBill(Cart cart);
-	static void printItems(vector<Item> itemsList);
+	void printItems();
 //	void removeItem(T itemToRemove);
 
 };

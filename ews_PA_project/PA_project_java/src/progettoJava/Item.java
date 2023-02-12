@@ -85,7 +85,7 @@ class ItemSoldInPieces extends Item implements Visitable{
 	
 }
 
-class  ItemSoldInWeight extends Item implements Visitable{
+class ItemSoldInWeight extends Item implements Visitable{
 	Double weight;
 
 	public ItemSoldInWeight() {}

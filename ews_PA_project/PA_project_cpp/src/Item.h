@@ -1,7 +1,7 @@
 #ifndef ITEM_H_
 #define ITEM_H_
 
-class Item {
+class Item{
 private:
 	double unitPrice;
 public:
@@ -10,10 +10,10 @@ public:
 	virtual ~Item();
 
 	double getUnitPrice();
-	virtual void setUnitPrice(double unitPrice) final;
+	void setUnitPrice(double unitPrice);
 	// compareTo ??
 	// orderListByPrice ??
-	virtual void toString() = 0;  // pure virtual function -> Item abstract class
+	virtual char* toString() = 0;  // pure virtual function -> Item abstract class
 };
 
 class ItemSoldInPieces : public Item{
@@ -27,7 +27,7 @@ public:
 
 	void addGiftItem();
 	bool equalsTo(ItemSoldInPieces item);
-	void toString();
+	char* toString();
 };
 
 class ItemSoldInWeight : public Item{
@@ -38,7 +38,7 @@ public:
 	~ItemSoldInWeight();
 
 	bool equalsTo(ItemSoldInWeight item);
-	void toString();
+	char* toString();
 };
 
 

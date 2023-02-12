@@ -123,7 +123,6 @@ public class Supermarket {
 		supermarketItemsList.add(dentifricio);
 		supermarketItemsList.add(cestoBanane);
 		supermarketItemsList.add(noci);
-		supermarketItemsList.add(noci);
 		supermarketItemsList.add(mele);
 		
 //		printItems(supermarketItemsList);   // sfrutto wildcard
