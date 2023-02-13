@@ -5,7 +5,7 @@
 #include <string.h>
 #include "Item.h"
 #include "Supermarket.h"
-#include <ctime> // bobodf
+#include <ctime>
 using namespace std;
 
 Cart::Cart(bool fidelityCard){
@@ -118,12 +118,12 @@ double Supermarket::getBill(Cart cart) {
 	time_t now = time(0);  // ora corrente
 	tm *localTime = localtime(&now);   // conversione a calendario
 	int sunday = localTime->tm_wday;   // giorni passati dall'ultima domenica
-	if (sunday == 0) {
-		for (unsigned int i = 0; i < cart.cartItemsSoldInPieces.size(); i++)
-			result += cart.cartItemsSoldInPieces[i].getItemPrice() * sundayDiscount;
-		for (unsigned int i = 0; i < cart.cartItemSoldInWeight.size(); i++)
-			result += cart.cartItemSoldInWeight[i].getItemPrice() * sundayDiscount;
-	}
+	for (unsigned int i = 0; i < cart.cartItemsSoldInPieces.size(); i++)
+		result += cart.cartItemsSoldInPieces[i].getItemPrice();
+	for (unsigned int i = 0; i < cart.cartItemSoldInWeight.size(); i++)
+		result += cart.cartItemSoldInWeight[i].getItemPrice();
+	if (sunday == 0)
+		result *= fidelityDiscount;
 	if(cart.fidelityCard)
 		result *= fidelityDiscount;
 	return result;
@@ -131,23 +131,28 @@ double Supermarket::getBill(Cart cart) {
 
 
 int main() {
-	// creazione di vari item
+	// creazione di vari prodotti
 	char det[] = "detersivo";
 	char dent[] = "dentifricio";
-	char cb[] = "cestoBanane";
+	char db[] = "dopobarba";
+	char cb[] = "cesto banane";
 	char no[] = "noci";
 	char me[] = "mele";
 	ItemSoldInPieces detersivo(det, 2.32, 2);
 	ItemSoldInPieces dentifricio(dent, 2.80, 3);
+	ItemSoldInPieces dopoBarba(db, 5.00, 1);
 	ItemSoldInWeight cestoBanane(cb, 3.53, 0.5);
 	ItemSoldInWeight noci(no, 8.90, 0.4);
 	ItemSoldInWeight mele(me, 0.88, 0.8);
-//	printf("%s\n", detersivo.toString());
-//	printf("%s\n", dentifricio.toString());
-//	printf("%s\n", cestoBanane.toString());
-//	printf("%s\n", noci.toString());
-//	printf("%s\n", mele.toString());
+	printf("\n---------------- Prodotti creati ----------------\n");
+	printf("%s\n", detersivo.toString());
+	printf("%s\n", dentifricio.toString());
+	printf("%s\n", dopoBarba.toString());
+	printf("%s\n", cestoBanane.toString());
+	printf("%s\n", noci.toString());
+	printf("%s\n", mele.toString());
 
+	printf("---------------- Creo liste di prodotti ----------------\n");
 	vector<ItemSoldInPieces> supermarketItemSoldInPieces;
 	supermarketItemSoldInPieces.push_back(detersivo);
 	supermarketItemSoldInPieces.push_back(dentifricio);
@@ -155,34 +160,37 @@ int main() {
 	supermarketItemSoldInWeight.push_back(noci);
 	supermarketItemSoldInWeight.push_back(mele);
 
+	printf("---------------- creo supermarket ----------------\n");
 	Supermarket conad(supermarketItemSoldInPieces, supermarketItemSoldInWeight);
-//	conad.printItems();
-//	conad.addItemSoldInPieces(dentifricio);
-//	conad.removeItemSoldInPieces(dentifricio);
-//	conad.printItems();
+	printf("---------------- aggiungo dopobarba----------------\n");
+	conad.addItemSoldInPieces(dopoBarba);
+	conad.printItems();
+	printf("\n---------------- rimuovo dopobarba ----------------\n");
+	conad.removeItemSoldInPieces(dopoBarba);
+	conad.printItems();
 
-	// nuovo carrello
+	printf("\n---------------- creo due carrelli, con e senza carta fedeltà ----------------\n");
 	Cart cartFidelity (true);
 	Cart cartNotFidelity (false);
 
-	// rimepio carrelli
+	printf("---------------- riempio i due carrelli ----------------\n");
 	cartFidelity.addItemSoldInPieces(detersivo);
+	cartFidelity.addItemSoldInPieces(dentifricio);
 	cartFidelity.addItemSoldInWeight(cestoBanane);
-	cartNotFidelity.addItemSoldInPieces(detersivo);
+	cartFidelity.addItemSoldInWeight(noci);
+	cartNotFidelity.addItemSoldInPieces(dentifricio);
 	cartNotFidelity.addItemSoldInWeight(cestoBanane);
+	cartNotFidelity.addItemSoldInWeight(noci);
 
-	// stampo contenuto carrello
-//	cartFidelity.printCart();
-//	printf("-------------- rimuovo detersivo --------------\n");
-//	cartFidelity.removeItemSoldInPieces(detersivo);
-//	cartFidelity.printCart();
+	printf("---------------- stampo prodotti nel carrello ----------------\n");
+	cartFidelity.printCart();
+	printf("\n---------------- rimuovo detersivo ----------------\n");
+	cartFidelity.removeItemSoldInPieces(detersivo);
+	cartFidelity.printCart();
 
-	// stampo conto carrello
-//	printf("cliente fedele: %f\n", conad.getBill(cartFidelity));
-//	printf("cliente non fedele: %f\n", conad.getBill(cartNotFidelity));
-
-	// elimino prodotto
-	delete[] &mele;
+	printf("\n---------------- stampo conto carrelli ----------------\n");
+	printf("cliente fedele: %.2f€\n", conad.getBill(cartFidelity));
+	printf("cliente non fedele: %.2f€\n", conad.getBill(cartNotFidelity));
 
 
 	return 0;

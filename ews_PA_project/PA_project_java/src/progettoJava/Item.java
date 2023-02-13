@@ -39,11 +39,6 @@ public abstract class Item implements Visitable, Comparable<Item>{
 	public String toString() {
 		return this.name + ", " + "prezzo/unità: " + this.unitPrice + "€";
 	}
-	
-	public void deleteItem() throws Throwable {
-		this.finalize();   // distruttore del garbage collectors
-		System.out.println(this.name + " eliminato");
-	}
 }
 
 class ItemSoldInPieces extends Item implements Visitable{
@@ -102,7 +97,7 @@ class ItemSoldInWeight extends Item implements Visitable{
 	
 	@Override   // uso di super
 	public String toString() {
-		return super.toString() + ", " + "peso: " + this.weight;
+		return super.toString() + ", " + "peso: " + this.weight + "kg";
 	}
 }
 

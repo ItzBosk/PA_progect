@@ -106,18 +106,22 @@ public class Supermarket {
 	}
 	
 	public static void main(String[] args) throws Throwable {
-		// creazione di vari item
+		// creazione di vari prodotti
 		ItemSoldInPieces detersivo = new ItemSoldInPieces("detersivo", 2.32, 2);
 		ItemSoldInPieces dentifricio = new ItemSoldInPieces("dentifricio", 2.80, 3);
+		ItemSoldInPieces dopoBarba = new ItemSoldInPieces("dopobarba", 5.00, 1);
 		ItemSoldInWeight cestoBanane = new ItemSoldInWeight("cesto banane", 3.53, 0.5);
 		ItemSoldInWeight noci = new ItemSoldInWeight("noci", 8.90, 0.4);
 		ItemSoldInWeight mele = new ItemSoldInWeight("mele", 0.88, 0.8);
-//		System.out.println(detersivo.toString());
-//		System.out.println(dentifricio.toString());
-//		System.out.println(cestoBanane.toString());
-//		System.out.println(noci.toString());
-
-		// lista prodotti supermercato
+		System.out.println("\n---------------- Prodotti creati ----------------\n");
+		System.out.println(detersivo.toString());
+		System.out.println(dentifricio.toString());
+		System.out.println(dopoBarba.toString());
+		System.out.println(cestoBanane.toString());
+		System.out.println(noci.toString());
+		System.out.println(mele.toString());
+		
+		System.out.println("\n---------------- Creo lista prodotti supermercato ----------------\n");
 		ArrayList<Item> supermarketItemsList = new ArrayList<>();
 		supermarketItemsList.add(detersivo);
 		supermarketItemsList.add(dentifricio);
@@ -125,69 +129,45 @@ public class Supermarket {
 		supermarketItemsList.add(noci);
 		supermarketItemsList.add(mele);
 		
-//		printItems(supermarketItemsList);   // sfrutto wildcard
-		
+		System.out.println("---------------- Creo supermarket ----------------\n");
 		// Supermarket supermarket = new Supermarket(); // non si può
 		Supermarket supermarket = newSupermarket(supermarketItemsList); // creazione solo su richiesta		
-//		supermarket.removeItem(mele);   // rimuovo prodotto dalla lista dei prodotti
-//		printItems(supermarketItemsList); 
+		System.out.println("---------------- Stampo lista prodotti ----------------\n");
+		printItems(supermarket.supermarketItems);   // sfrutto wildcard
 		
-		List<ItemSoldInPieces> itemsSoldInPieces = new ArrayList<>();
-		itemsSoldInPieces.add(detersivo);
-		itemsSoldInPieces.add(dentifricio);
-//		printItems(itemsSoldInPieces);
+		System.out.println("\n---------------- rimuovo prodotto dalla lista ----------------\n");
+		supermarket.removeItem(mele);   
+		printItems(supermarket.supermarketItems); 
 		
-		List<ItemSoldInWeight> itemsSoldInWeight = new ArrayList<>();
-		itemsSoldInWeight.add(cestoBanane);
-		itemsSoldInWeight.add(noci);
-//		printItems(itemsSoldInWeight);
-		
-		// array di prodotti riordinati
+		System.out.println("\n---------------- array di prodotti ----------------\n");
 		Item[] itemsArray = new Item[3]; 
 		itemsArray[0] = dentifricio;
 		itemsArray[1] = noci;
 		itemsArray[2] = detersivo;
-//		printArrayItems(itemsArray);
+		printArrayItems(itemsArray);
+		System.out.println("\n---------------- array di prodotti riordinato ----------------\n");
 		Item.orderListByPrice(itemsArray);
-//		System.out.println("----------");
-//		printArrayItems(itemsArray);
+		printArrayItems(itemsArray);
 		
-		Item[] itemsSoldInPiecesArray = new ItemSoldInPieces[2]; 
-		itemsSoldInPiecesArray[0] = dentifricio;
-		itemsSoldInPiecesArray[1] = detersivo;
-//		printArrayItems(itemsSoldInPiecesArray);
-		Item.orderListByPrice(itemsSoldInPiecesArray);
-//		System.out.println("----------");
-//		printArrayItems(itemsSoldInPiecesArray);
-		
-		Item[] itemsSoldInWeightArray = new ItemSoldInWeight[2]; 
-		itemsSoldInWeightArray[0] = noci;
-		itemsSoldInWeightArray[1] = cestoBanane;
-//		printArrayItems(itemsSoldInWeightArray);
-		Item.orderListByPrice(itemsSoldInWeightArray);
-//		System.out.println("----------");
-//		printArrayItems(itemsSoldInWeightArray);
-		
-		// nuovo carrello
+		System.out.println("\n---------------- creo due carrelli, con e senza carta fedeltà ----------------\n");
 		Cart cartFidelity = new Cart(true);
 		Cart cartNotFidelity = new Cart(false);
 		
-		// rimepio carrello
+		System.out.println("---------------- riempio i due carrelli ----------------\n");
 		cartFidelity.addItems(detersivo);
+		cartFidelity.addItems(dentifricio);
 		cartFidelity.addItems(cestoBanane);
-		cartNotFidelity.addItems(detersivo, cestoBanane);   // varargs
+		cartNotFidelity.addItems(dentifricio, cestoBanane, noci);   // varargs
 		
-		// stampo contenuto carrello
-//		cartFidelity.printCart();
-//		cartFidelity.removeItem(detersivo);
-//		cartFidelity.printCart();
-		
-		// stampo conto carrello
-//		System.out.println("cliente fedele: " + getBill(cartFidelity));
-//		System.out.println("cliente non fedele: " + getBill(cartFidelity));
-		
-		// elimino prodotto
-//		mele.deleteItem();
+		System.out.println("---------------- stampo prodotti nel carrello ----------------\n");
+		cartFidelity.printCart();
+		System.out.println("\n---------------- rimuovo detersivo ----------------\n");
+		cartFidelity.removeItem(detersivo);
+		cartFidelity.printCart();
+
+		System.out.println("\n---------------- stampo conto carrelli ----------------\n");
+		System.out.println("cliente fedele: " + getBill(cartFidelity));
+		System.out.println("cliente non fedele: " + getBill(cartFidelity));
 		
 	}
 }
