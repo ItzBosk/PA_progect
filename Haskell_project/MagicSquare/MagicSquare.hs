@@ -27,13 +27,12 @@ magic = [[8, 1, 6],
          [3, 5, 7],
          [4, 9, 2]]
 
--- tutte le possibili magic square
+-- tutte le possibili magic square 3x3 con numeri da 1 a 9
 allMagic :: [Square]
--- take 4 $ iterate rot90 magic -> 4 rotazioni della magic square originale
--- take 4 $ iterate rot90 $ refl magic -> 4 rotazioni della magic square riflessa
--- ottengo 8 magic square
-allMagic = concat [take 4 $ iterate rot90 magic,
-                    take 4 $ iterate rot90 $ refl magic]
+-- filter -> considera solo elementi che rispecchiano la condizione isMagic
+-- chop n -> taglia una lista ogni n elementi 
+-- permutations -> tutte le possibili permutazioni di una lista
+allMagic = filter isMagic $ map (chop 3) $ permutations [1..9]
 
 -- obiettivo del programma: 
     -- brute force di tutte le possibili magic square derivabili dall'originale
@@ -53,6 +52,48 @@ solve :: Square -> Int
 -- minimum -> prende la distanza minore
 solve s = minimum $ map (distance s) allMagic
 
-main :: IO ()
-main = 
+chop :: Int -> [Int] -> [[Int]]
+-- opposto di concat, da una lista di int a una matrice
+chop _ [] = []  -- se arrivato alla fine return lista vuota
+chop n xs = take n xs:chop n(drop n xs)  -- ricorsione, toglie i primi n eleemtni dalla lista e prosegue
 
+isMagic :: Square -> Bool -- true se tutti e quattro i valori calcolati sono uguali
+-- transpose -> ogni riga diventa colonna
+-- !! -> permette di scegliere la posizione del valore della lista da estrarre
+-- zip [0 .. ] -> unisce due liste, con [0..] lista infinta a partire da 0, avrò delle coppie (numero, riga matrice)
+-- uncurry -> converte una funzione di modo che accetti delle coppie di elementi
+-- nub -> rimuove gli elementi duplicati di una lista
+
+-- map sum s -> somma dei numeri delle righe
+-- map sum $ transpose s -> somma dei numeri sulle colonne 
+-- sum $ map (uncurry (!!)) $ zip s [0..] -> somma elementi diagonale principale
+-- sum $ map (uncurry (!!)) $ zip (map reverse s) [0..] -> somma elementi diagonale secondaria
+isMagic s = 
+    (==1) $ -- check se lista di somme = 1
+    length $ 
+    nub $ 
+    concat [map sum s,  -- somma dei numeri delle righe
+            map sum $ transpose s,  -- somma dei numeri sulle colonne (ogni riga diventa colonna)
+            [sum $ map (uncurry (!!)) $ zip s [0..]],  -- somma elementi diagonale principale
+            [sum $ map (uncurry (!!)) $ zip (map reverse s) [0..]]]  -- somma elementi diagonale secondaria
+    
+-----------------------------------------------
+
+-- la matrice in input deve essere separata in righe e poi per ogni elemento
+-- lines -> divide le righe
+-- words -> separara gli elementi
+-- read -> converte in numeri gli elementi 
+-- map (map read . words) . lines -> crea una lista di liste di numeri
+-- show -> converte da int a string
+
+getIntList :: IO [Int]
+getIntList = fmap read getLine
+
+calcola = do
+    putStrLn "----------------------------------------------------------------"
+    putStrLn "Inserisci la lista di numeri della matrice 3x3:: "
+    inputList <- getIntList
+    let result = solve $ chop 3 inputList
+    print(result)
+
+main = calcola
